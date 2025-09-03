@@ -1,0 +1,63 @@
+#PROBLEM STATEMENT 
+Implementing a real-time undo/redo system for a text editing application using a Stack data
+structure. The system should support the following operations:
+• Make a Change: A new change to the document is made.
+• Undo Action: Revert the most recent change and store it for potential redo.
+• Redo Action: Reapply the most recently undone action.
+• Display Document State: Show the current state of the document after undoing or
+redoing an action
+
+#CODE
+undo_stack = [""]  # Start with empty document state
+redo_stack = []
+
+def makechange():
+    print("Enter data to text editor:")
+    text = input()
+    undo_stack.append(text)  # Add new state
+    redo_stack.clear()       # Clear redo history
+    display_text()
+
+def undo_action():
+    if len(undo_stack) > 1:  # At least one previous state to go back to
+        x = undo_stack.pop()  # Remove current state
+        redo_stack.append(x)  # Save for redo
+        display_text()
+    else:
+        print("No undo action possible.")
+
+def redo_action():
+    if redo_stack:
+        x = redo_stack.pop()
+        undo_stack.append(x)
+        display_text()
+    else:
+        print("No redo action possible.")
+
+def display_text():
+    # Show current document state (last element)
+    print("Current Document State:")
+    print(undo_stack[-1])
+
+while True:
+    print("\nText Editor Menu")
+    print("1. Make a change")
+    print("2. Undo")
+    print("3. Redo")
+    print("4. Display")
+    print("5. Exit")
+
+    choice = input("Enter choice: ")
+    if choice == "1":
+        makechange()
+    elif choice == "2":
+        undo_action()
+    elif choice == "3":
+        redo_action()
+    elif choice == "4":
+        display_text()
+    elif choice == "5":
+        print("Exiting...")
+        break
+    else:
+        print("Invalid choice, try again.")
