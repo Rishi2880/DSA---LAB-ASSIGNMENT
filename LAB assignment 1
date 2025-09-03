@@ -1,0 +1,94 @@
+#PROBLEM STATEMENT
+#Write a Python program to manage the borrowing records of books in a library. Implement
+the following functionalities:
+• Compute the average number of books borrowed by all library members.
+• Find the book with the highest and lowest number of borrowings in the library.
+• Count the number of members who have not borrowed any books (denoted by a
+borrow count of 0).
+• Display the most frequently borrowed book (i.e., the mode of borrow counts).
+
+#CODE
+# Members and how many books they borrowed
+members = {
+    "Pranav": 4,
+    "Arnav": 0,
+    "Viraj": 3,
+    "Rohan": 0,
+    "Riya": 2
+}
+
+# Books and their borrow counts
+books = {
+    "Book A": 8,
+    "Book B": 3,
+    "Book C": 8,
+    "Book D": 2,
+    "Book E": 5
+}
+
+# 1. Average books borrowed by members
+total_borrowed = sum(members.values())
+num_members = len(members)
+average_borrowed = total_borrowed / num_members if num_members > 0 else 0
+
+# 2. Book with highest and lowest borrowings
+max_borrow_count = None
+min_borrow_count = None
+book_highest = None
+book_lowest = None
+
+for book, count in books.items():
+    if max_borrow_count is None or count > max_borrow_count:
+        max_borrow_count = count
+        book_highest = book
+    if min_borrow_count is None or count < min_borrow_count:
+        min_borrow_count = count
+        book_lowest = book
+
+# 3. Count members who borrowed 0 books
+members_no_borrow = 0
+for count in members.values():
+    if count == 0:
+        members_no_borrow += 1
+
+# 4. Find the most frequently borrowed book(s) (mode)
+borrow_counts = {}
+
+for count in books.values():
+    if count in borrow_counts:
+        borrow_counts[count] += 1
+    else:
+        borrow_counts[count] = 1
+
+# Find the highest frequency of borrow counts
+max_frequency = 0
+for freq in borrow_counts.values():
+    if freq > max_frequency:
+        max_frequency = freq
+
+# Get all borrow counts that occur max_frequency times
+modes = []
+for count, freq in borrow_counts.items():
+    if freq == max_frequency:
+        modes.append(count)
+
+# Find all books with borrow counts in modes
+most_frequent_books = []
+for book, count in books.items():
+    if count in modes:
+        most_frequent_books.append(book)
+
+# Output results
+print(f"Average books borrowed by members: {average_borrowed:.2f}")
+print(f"Book with highest borrowings: {book_highest} ({max_borrow_count} times)")
+print(f"Book with lowest borrowings: {book_lowest} ({min_borrow_count} times)")
+print(f"Number of members with no borrowings: {members_no_borrow}")
+
+print(f"Most frequently borrowed book(s): {', '.join(most_frequent_books)}")
+
+#----OUTPUT----
+Average books borrowed by members: 1.80
+Book with highest borrowings: Book A (8 times)  
+Book with lowest borrowings: Book D (2 times)   
+Number of members with no borrowings: 2
+Most frequently borrowed book(s): Book A, Book C
