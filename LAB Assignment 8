@@ -1,0 +1,60 @@
+# Representing locations as nodes
+locations = ['A', 'B', 'C', 'D', 'E']
+
+# ====== Adjacency Matrix for DFS ======
+adj_matrix = [
+    [0, 1, 1, 0, 0],  # A connected to B, C
+    [1, 0, 0, 1, 0],  # B connected to A, D
+    [1, 0, 0, 0, 1],  # C connected to A, E
+    [0, 1, 0, 0, 0],  # D connected to B
+    [0, 0, 1, 0, 0]   # E connected to C
+]
+
+# ====== DFS using Adjacency Matrix ======
+def dfs_matrix(start, visited):
+    print(locations[start], end=' ')
+    visited[start] = True
+    for i in range(len(adj_matrix[start])):
+        if adj_matrix[start][i] == 1 and not visited[i]:
+            dfs_matrix(i, visited)
+
+print("DFS Traversal (using adjacency matrix):")
+visited = [False] * len(locations)
+dfs_matrix(0, visited)  # start from 'A'
+
+print("\n")
+
+# ====== Adjacency List for BFS ======
+adj_list = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'E'],
+    'D': ['B'],
+    'E': ['C']
+}
+
+from collections import deque
+
+# ====== BFS using Adjacency List ======
+def bfs_list(start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+
+    while queue:
+        current = queue.popleft()
+        print(current, end=' ')
+        for neighbor in adj_list[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+print("BFS Traversal (using adjacency list):")
+bfs_list('A')
+
+
+Output : DFS Traversal (using adjacency matrix):
+A B D C E
+
+BFS Traversal (using adjacency list):
+A B C D E 
